@@ -38,7 +38,7 @@ class ViewController: UIViewController {
         messageLabel.text = messages[Int.random(in:0...messages.count-1)]
         //imageView.image = UIImage(named:"image\(Int.random(in: 0...totalNumberOfImages))")
         //var number = int.random(in:)
-        var result = Int.random(in:0...1)
+        let result = Int.random(in:0...1)
         if result == 1{
                 imageView.image = UIImage(named: "When-Borat-Says-My-Wife")
         }else{
