@@ -15,12 +15,35 @@ class ViewController: UIViewController {
     
     var imageNumber = 0
     var messageNumber = 0
+    var soundNumber = -1
     let totalNumberOfImages = 2
+    let totalNumberOfSounds = 3
     var audioPlayer: AVAudioPlayer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+    }
+    
+    func playSound(name: String){
+        if let sound = NSDataAsset(name: name){
+            do {
+                try audioPlayer = AVAudioPlayer(data: sound.data)
+                audioPlayer.play()
+            }catch{
+                print("ERROR")
+            }
+            }else {
+            print("ERROR")
+        }
+    }
+    
+    func nonRepeatingRandom(originalNumber: Int, upperLimit: Int) -> Int {
+        var newNumber: Int
+        repeat {
+            newNumber = Int.random(in: 0...upperLimit)
+        }while originalNumber == newNumber
+        return newNumber
     }
 
     @IBAction func messageButtonPressed(_ sender: UIButton) {
@@ -35,29 +58,38 @@ class ViewController: UIViewController {
                         "Is Borat awesome?...NOT",
                         "I hate building apps?...NOT",
                         "This my seester"]
-        var newMessage = messages[Int.random(in: 0...messages.count-1)]
-        while messageLabel.text == newMessage {
-            newMessage = messages[Int.random(in: 0...messages.count-1)]
-        }
-        messageLabel.text = newMessage
-        //messageLabel.text = messages[Int.random(in: 0...messages.count-1)]
         
-        var newImage = UIImage(named: "image\(Int.random(in: 0...totalNumberOfImages))")
-        while imageView.image == newImage {
-            newImage = UIImage(named: "image\(Int.random(in: 0...totalNumberOfImages))")
-        }
-        imageView.image = newImage
+        messageNumber = nonRepeatingRandom(originalNumber: messageNumber,upperLimit: messages.count-1)
+        messageLabel.text = messages[messageNumber]
         
-        if let sound = NSDataAsset(name: "sound0"){
-            do {
-                try audioPlayer = AVAudioPlayer(data: sound.data)
-                audioPlayer.play()
-            }catch{
-                print("ERROR")
-            }
-            }else {
-            print("ERROR")
-        }
+        imageNumber = nonRepeatingRandom(originalNumber: imageNumber,upperLimit: totalNumberOfImages-1)
+        imageView.image = UIImage(named: "image\(imageNumber)")
+        
+        soundNumber = nonRepeatingRandom(originalNumber: soundNumber,upperLimit: totalNumberOfSounds-1)
+        playSound(name: "sound\(soundNumber)")
+        
+        
+//        var newMessage = messages[Int.random(in: 0...messages.count-1)]
+//        while messageLabel.text == newMessage {
+//            newMessage = messages[Int.random(in: 0...messages.count-1)]
+//        }
+//        messageLabel.text = newMessage
+//        //messageLabel.text = messages[Int.random(in: 0...messages.count-1)]
+//
+//        var newImage = UIImage(named: "image\(Int.random(in: 0...totalNumberOfImages))")
+//        while imageView.image == newImage {
+//            newImage = UIImage(named: "image\(Int.random(in: 0...totalNumberOfImages))")
+//        }
+//        imageView.image = newImage
+//
+//
+//        var newSoundNumber: Int
+//        repeat {
+//            newSoundNumber = Int.random(in: 0...totalNumberOfSounds-1)
+//        }while soundNumber == newSoundNumber
+//        soundNumber = newSoundNumber
+//        print("New Sound Number Is \(soundNumber)")
+//        playSound(name: "sound\(soundNumber)")
         
        // imageView.image = UIImage(named: "image\(Int.random(in: 0...totalNumberOfImages))")
         
